@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_blue"
+    tools:context=".PengaduanActivity">
+
+    <!--AppBarLayout helps the toolbar and other components to react on
+        scroll changes. I am using Dark theme for AppBarLayout.
+        Inside this AppBarLayout i
+        have used CollapsingToolbarLayout. -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <!-- In CollapsingToolbarLayout some important attributes are:
+        i) app:layout_scrollFlags which is used to specify how collapsing
+            layout behaves when content is scrolled.I have used
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            so it will scroll until it's is completely collapsed.
+        ii) app:contentScrim="@color/green" that specifies the color
+            of the collapsed toolbar -->
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/white"
+            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"
+            app:title="Pengaduan">
+
+            <!--We are adding the image that we have added earlier
+                in the drawable folder.The attribute app:layout_collapseMode="parallax"
+                causes the image to move when user scrolls at a specific ratio. -->
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/logo"
+                app:layout_collapseMode="parallax"
+                tools:ignore="ContentDescription" />
+
+            <!-- The attribute app:layout_collapseMode="pin" is set so that
+                sticks to the top when the user scrolls the view up-->
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_blue"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/light_blue">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@color/white"
+                android:elevation="10dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <EditText
+                        android:id="@+id/judul"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginBottom="24dp"
+                        android:autofillHints=""
+                        android:background="@drawable/multitext_background"
+                        android:ems="10"
+                        android:hint="@string/judul_pengaduan"
+                        android:inputType="text"
+                        android:padding="10dp"
+                        android:text=""
+                        android:textColor="@color/white"
+                        android:textColorHint="#546E7A" />
+
+                    <EditText
+                        android:id="@+id/isi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:autofillHints=""
+                        android:background="@drawable/multitext_background"
+                        android:ems="10"
+                        android:gravity="start|top"
+                        android:hint="@string/isi_pengaduan"
+                        android:inputType="textMultiLine"
+                        android:lines="5"
+                        android:padding="10dp"
+                        android:textColorHighlight="@color/white"
+                        android:textColorHint="#546E7A" />
+
+                    <EditText
+                        android:id="@+id/inputTanggal"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:layout_marginBottom="24dp"
+                        android:autofillHints=""
+                        android:background="@drawable/multitext_background"
+                        android:focusableInTouchMode="false"
+                        android:hint="@string/masukan_tanggal"
+                        android:imeOptions="actionNext"
+                        android:inputType="date"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="#1B5E20"
+                        android:textSize="16sp" />
+
+                    <Spinner
+                        android:id="@+id/kategori"
+                        android:layout_width="match_parent"
+                        android:layout_height="52dp"
+                        android:background="@drawable/multitext_background"
+                        android:padding="10dp" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cv2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:elevation="20dp"
+                app:cardCornerRadius="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv1">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <EditText
+                        android:id="@+id/lokasi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:autofillHints=""
+                        android:background="@drawable/multitext_background"
+                        android:ems="10"
+                        android:gravity="start|top"
+                        android:hint="@string/lokasi"
+                        android:inputType="textMultiLine"
+                        android:lines="3"
+                        android:padding="10dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="#546E7A" />
+
+                    <org.osmdroid.views.MapView
+                        android:id="@+id/map"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="24dp">
+
+                        <ImageView
+                            android:id="@+id/img"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:background="#c1c1c1"
+                            android:contentDescription="@string/gambar"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/uploadImg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_marginEnd="5dp"
+                            android:layout_marginBottom="5dp"
+                            android:contentDescription="@string/tombol_gambar"
+                            app:layout_constraintBottom_toBottomOf="@+id/img"
+                            app:layout_constraintEnd_toEndOf="@+id/img"
+                            app:srcCompat="@drawable/ic_camera" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/lapor"
+                style="@android:style/Widget.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_background"
+                android:text="@string/lapor"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cv2" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
