@@ -23,4 +23,6 @@
   <string name="lokasi">Lokasi</string>
   <string name="gambar">Gambar</string>
   <string name="tombol_gambar">Tombol Gambar</string>
+    <string name="selamat_datang_n_di_aplikasi_e_lapor">SELAMAT DATANG \n DI APLIKASI E-LAPOR</string>
+  <string name="mulai_aplikasi">Mulai Aplikasi</string>
 </resources>

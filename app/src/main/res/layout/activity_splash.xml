@@ -5,7 +5,7 @@
     style="@android:style/Widget.Button"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_blue"
+    android:background="@color/dark_teal"
     tools:context=".SplashActivity">
 
 
@@ -17,7 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo" />
+        app:srcCompat="@drawable/logo"
+        tools:ignore="ContentDescription" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -25,30 +26,30 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
         app:layout_constraintVertical_bias="0.065"
-        app:srcCompat="@drawable/arc_1" />
+        app:srcCompat="@drawable/arc_new"
+        tools:ignore="ContentDescription" />
 
     <View
         android:id="@+id/view"
-        android:layout_width="match_parent"
-        android:layout_height="420dp"
-        android:background="@color/light_blue"
+        android:layout_width="410dp"
+        android:layout_height="405dp"
+        android:background="@color/light_teal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="SELAMAT DATANG \n DI APLIKASI E-LAPOR"
+        android:text="@string/selamat_datang_n_di_aplikasi_e_lapor"
         android:textAlignment="center"
         android:textSize="34sp"
         android:textStyle="bold"
@@ -79,7 +80,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="32dp"
         android:background="@drawable/button_background"
-        android:text="Mulai Aplikasi"
+        android:text="@string/mulai_aplikasi"
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
