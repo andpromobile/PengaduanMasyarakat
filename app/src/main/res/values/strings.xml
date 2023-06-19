@@ -16,7 +16,7 @@
       geeks and we are only a fraction of it yet.
   </string>
   <string name="sampaikan">Sampaikan Laporan Anda Langsung Kepada Instansi Pemerintah Kabupaten Hulu Sungai \nTengah</string>
-  <string name="lapor">LAPOR</string>
+  <string name="lapor">PROSES</string>
   <string name="judul_pengaduan">Judul Pengaduan</string>
   <string name="isi_pengaduan">Isi Pengaduan</string>
   <string name="masukan_tanggal">Masukan tanggal</string>
@@ -25,4 +25,7 @@
   <string name="tombol_gambar">Tombol Gambar</string>
     <string name="selamat_datang_n_di_aplikasi_e_lapor">SELAMAT DATANG \n DI APLIKASI E-LAPOR</string>
   <string name="mulai_aplikasi">Mulai Aplikasi</string>
+    <string name="dinas">Dinas Pekerjaan Umum dan Penataan Ruang\nKabupaten Hulu Sungai Tengah</string>
+  <string name="nama_pelapor">Nama Pelapor</string>
+  <string name="hp_pelapor">HP PELAPOR</string>
 </resources>
