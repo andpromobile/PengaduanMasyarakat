@@ -63,7 +63,7 @@
         android:background="@color/dark_blue"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/light_teal">
@@ -76,10 +76,7 @@
                 android:background="@color/white"
                 android:elevation="10dp"
                 app:cardBackgroundColor="@color/white"
-                app:cardCornerRadius="0dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:cardCornerRadius="20dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -88,117 +85,238 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <EditText
-                        android:id="@+id/judul"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginBottom="24dp"
-                        android:autofillHints=""
-                        android:background="@drawable/multitext_background"
-                        android:ems="10"
-                        android:hint="@string/judul_pengaduan"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textColorHint="#37474F" />
-
-                    <EditText
-                        android:id="@+id/isi"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        android:autofillHints=""
-                        android:background="@drawable/multitext_background"
-                        android:ems="10"
-                        android:gravity="start|top"
-                        android:hint="@string/isi_pengaduan"
-                        android:inputType="textMultiLine"
-                        android:lines="5"
-                        android:padding="10dp"
-                        android:textColorHighlight="@color/white"
-                        android:textColorHint="#37474F" />
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
 
-                    <EditText
-                        android:id="@+id/inputTanggal"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginBottom="24dp"
-                        android:autofillHints=""
-                        android:background="@drawable/multitext_background"
-                        android:focusableInTouchMode="false"
-                        android:hint="@string/masukan_tanggal"
-                        android:imeOptions="actionNext"
-                        android:inputType="date"
-                        android:maxLines="1"
-                        android:padding="10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="#1B5E20"
-                        android:textSize="16sp" />
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/frmNama"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:ems="10"
+                            android:hint="Nama"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="10dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
 
-                    <EditText
-                        android:id="@+id/nama_pelapor"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginBottom="24dp"
-                        android:autofillHints=""
-                        android:background="@drawable/multitext_background"
-                        android:ems="10"
-                        android:hint="@string/nama_pelapor"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textColorHint="#37474F" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/hp_pelapor"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginBottom="24dp"
-                        android:autofillHints=""
-                        android:background="@drawable/multitext_background"
-                        android:ems="10"
-                        android:hint="@string/hp_pelapor"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:text=""
-                        android:textColor="@color/white"
-                        android:textColorHint="#37474F" />
-
-                    <Spinner
-                        android:id="@+id/kategori"
-                        android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:layout_marginBottom="24dp"
-                        android:background="@drawable/multitext_background"
-                        android:padding="10dp" />
-
-                    <EditText
-                        android:id="@+id/lokasi"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        android:autofillHints=""
-                        android:background="@drawable/multitext_background"
-                        android:ems="10"
-                        android:gravity="start|top"
-                        android:hint="@string/lokasi"
-                        android:inputType="textMultiLine"
-                        android:lines="3"
-                        android:padding="10dp"
-                        android:textColor="@color/white"
-                        android:textColorHint="#37474F" />
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
 
-                    <org.osmdroid.views.MapView
-                        android:id="@+id/map"
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/frmNoHP"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:ems="10"
+                            android:hint="Nomor HP"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="10dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
-                        android:visibility="gone"/>
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/frmJudul"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:ems="10"
+                            android:hint="Judul Pengaduan"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="10dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/frmIsi"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:importantForAutofill="no"
+                            android:gravity="start|top"
+                            android:hint="@string/isi_pengaduan"
+                            android:inputType="textMultiLine"
+                            android:lines="5"
+                            android:padding="10dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/frmTanggal"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:ems="10"
+                            android:hint="Tanggal"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="10dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/frmBidangId"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:ems="10"
+                            android:gravity="start|top"
+                            android:hint="Bidang"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="16dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/frmLokasiId"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:ems="10"
+                            android:gravity="start|top"
+                            android:hint="Lokasi"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="16dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/frmKecamatanId"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:ems="10"
+                            android:gravity="start|top"
+                            android:hint="Kecamatan"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="16dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="24dp"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/frmKelurahanId"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:ems="10"
+                            android:gravity="start|top"
+                            android:hint="Kelurahan"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="16dp"
+                            android:textColorHint="@color/medium_teal"
+                            android:textSize="20sp"
+                            android:textColor="@color/dark_teal"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="24dp">
 
                         <ImageView
                             android:id="@+id/img"
@@ -221,27 +339,47 @@
                             app:layout_constraintEnd_toEndOf="@+id/img"
                             app:srcCompat="@drawable/ic_camera_white" />
 
+                        <ImageButton
+                            android:id="@+id/saveImg"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:background="@drawable/button_background"
+                            android:contentDescription="@string/tombol_gambar"
+                            app:layout_constraintBottom_toBottomOf="@+id/img"
+                            app:layout_constraintEnd_toStartOf="@+id/uploadImg"
+                            app:srcCompat="@drawable/baseline_save_24" />
+                        
+                        <ProgressBar
+                            android:id="@+id/progressBar"
+                            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:max="100"
+                            tools:progress="40"
+                            app:layout_constraintStart_toStartOf="@id/img"
+                            app:layout_constraintEnd_toEndOf="@id/img"
+                            app:layout_constraintBottom_toBottomOf="@id/img"/>
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/lapor"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="30dp"
+                        android:background="@drawable/button_background"
+                        android:text="@string/lapor"
+                        android:textColor="@color/white"
+                        android:textSize="20sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/lapor"
-                style="@android:style/Widget.Button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="30dp"
-                android:background="@drawable/button_background"
-                android:text="@string/lapor"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cv1" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

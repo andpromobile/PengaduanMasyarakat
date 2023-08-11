@@ -81,7 +81,9 @@
                 app:cardCornerRadius="0dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -94,7 +96,6 @@
                         android:id="@+id/judul"
                         android:layout_width="match_parent"
                         android:layout_height="52dp"
-                        android:layout_marginBottom="24dp"
                         android:autofillHints=""
                         android:background="@drawable/multitext_background"
                         android:ems="10"
@@ -105,27 +106,54 @@
                         android:textColor="@color/white"
                         android:textColorHint="#37474F" />
 
-                    <EditText
-                        android:id="@+id/isi"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="24dp"
-                        android:autofillHints=""
-                        android:background="@drawable/multitext_background"
-                        android:ems="10"
-                        android:gravity="start|top"
-                        android:hint="@string/isi_pengaduan"
-                        android:inputType="textMultiLine"
-                        android:lines="5"
-                        android:padding="10dp"
-                        android:textColorHighlight="@color/white"
-                        android:textColorHint="#37474F" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
 
+
+                <LinearLayout
+                    android:id="@+id/linearLayout2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="48dp"
+                    android:background="@color/white"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:layout_marginStart="32dp"
+                    android:layout_marginEnd="32dp"
+                    app:layout_constraintTop_toBottomOf="@id/cv1"
+                    app:layout_constraintBottom_toTopOf="@id/inputToken">
+
+                    <TextView
+
+                        android:textAlignment="center"
+                        android:text="KODE TOKEN ANDA:"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        />
+
+                    <TextView
+                        android:textAlignment="center"
+                        android:gravity="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:hint="FKT001"
+                        android:textSize="64sp"/>
+
+                    <TextView
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/penjelasan_token"/>
+
+                </LinearLayout>
+
+
             <EditText
-                android:id="@+id/token"
+                android:id="@+id/inputToken"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:layout_marginStart="32dp"
@@ -142,7 +170,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cv1" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -150,7 +178,9 @@
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
                 android:background="@drawable/button_background"
                 android:text="@string/lapor"
                 android:textColor="@color/white"
@@ -159,7 +189,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.466"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/token"
+                app:layout_constraintTop_toBottomOf="@id/inputToken"
                 app:layout_constraintVertical_bias="0.0" />
 
             <LinearLayout
