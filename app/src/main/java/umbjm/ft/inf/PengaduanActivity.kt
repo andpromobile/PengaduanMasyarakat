@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
@@ -21,14 +22,19 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
+import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
+import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.elaporadmin.ViewModel.BidangViewModel
 import com.example.elaporadmin.ViewModel.KecamatanViewModel
 import com.example.elaporadmin.ViewModel.KelurahanViewModel
 import com.example.elaporadmin.ViewModel.LokasiViewModel
+import com.example.elaporadmin.ViewModel.PengaduanViewModel
 import com.example.elaporadmin.ViewModel.SubmitModel
 import com.example.elaporadmin.retrofit.ApiService
 import com.google.android.material.textfield.TextInputEditText
@@ -74,6 +80,9 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     private var kecamatanId:Int=0
     private var selectedImageUri: Uri? = null
     private lateinit var currentPhotoPath:String
+    private lateinit var photoFile:File
+    private var fileName:String = "foto.png"
+    private val pengaduanViewModel: PengaduanViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -84,7 +93,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         setKomponen()
         setListener()
         setAutoComplete()
-        setLog()
+
     }
 
     private fun setLog() {
@@ -98,18 +107,80 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
 //        'kelurahan_id'=>'required',
 //        'bidang_id'=>'required',
 //        'kecamatan_id'=>'required',
-        CoroutineScope(Dispatchers.IO).launch {
-            Log.d("FORM", frmJudul.text.toString())
-            Log.d("FORM", frmNama.text.toString())
-            Log.d("FORM", frmNoHp.text.toString())
-            Log.d("FORM", frmIsi.text.toString())
-            Log.d("FORM", frmTanggal.text.toString())
-            Log.d("FORM", lokasiId.toString())
-            Log.d("FORM", kelurahanId.toString())
-            Log.d("FORM", bidangId.toString())
-            Log.d("FORM", kecamatanId.toString())
+//        CoroutineScope(Dispatchers.IO).launch {
+//            Log.d("FORM", frmJudul.text.toString())
+//            Log.d("FORM", frmNama.text.toString())
+//            Log.d("FORM", frmNoHp.text.toString())
+//            Log.d("FORM", frmIsi.text.toString())
+//            Log.d("FORM", frmTanggal.text.toString())
+//            Log.d("FORM", fileName)
+//            Log.d("FORM", lokasiId.toString())
+//            Log.d("FORM", kelurahanId.toString())
+//            Log.d("FORM", bidangId.toString())
+//            Log.d("FORM", kecamatanId.toString())
+//        }
+
+        if (cekInput()){
+            pengaduanViewModel.insertPengaduan(
+                frmJudul.text.toString(),
+                frmNama.text.toString(),
+                frmNoHp.text.toString(),
+                frmIsi.text.toString(),
+                frmTanggal.text.toString(),
+                fileName,
+                lokasiId,
+                kelurahanId,
+                bidangId,
+                kecamatanId
+            )
+
+            pengaduanViewModel.observePesanLiveData().observe(
+                this,
+            ) {pesan->
+                SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Sukses")
+                    .setContentText("DATA BERHASIL DISIMPAN")
+                    .setConfirmButton("IYA") {
+                        it.dismissWithAnimation()
+
+                        val intent = Intent(
+                            this@PengaduanActivity,
+                            MainActivity::class.java,
+                        )
+
+
+
+                        intent.putExtra("TOKEN", pesan.toString())
+
+                        startActivity(intent)
+
+                    }
+                    .show()
+            }
+
+
+
+
+        }else{
+            SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                .setContentText("Input Tidak Boleh Kosong!!!")
+                .show()
         }
 
+
+    }
+
+    private fun cekInput():Boolean {
+        var cek = false
+        if (
+            (frmJudul.text.toString() != "") &&
+            (frmNama.text.toString() != "") &&
+            (frmNoHp.text.toString() != "") &&
+            (frmIsi.text.toString() != "") &&
+            (frmTanggal.text.toString() != "")
+        ) cek = true
+
+        return cek
     }
 
     private fun setAutoComplete() {
@@ -266,7 +337,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
                     tanggalLapor.set(Calendar.YEAR, year)
                     tanggalLapor.set(Calendar.MONTH, monthOfYear)
                     tanggalLapor.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    val strFormatDefault = "d MMMM yyyy"
+                    val strFormatDefault = "yyyy-MM-d"//""d MMMM yyyy"
                     val simpleDateFormat =
                         SimpleDateFormat(strFormatDefault, Locale.getDefault())
                     frmTanggal.setText(simpleDateFormat.format(tanggalLapor.time))
@@ -297,6 +368,8 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         val file = File(cacheDir, contentResolver.getFileName(selectedImageUri!!))
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
+
+        fileName = file.name
 
         progressBar.progress = 0
         val foto = UploadRequestBody(file, "image",this)
@@ -352,6 +425,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         // Menampilkan layar atau Activity untuk mengambil gambar menggunakan kamera HP
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         startActivityForResult(intent, 123)
+
     }
 
     private fun galeri(){
@@ -372,9 +446,8 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         // kode = 123 untuk gambar dari penyimpanan lokal
         // kode = 456 untuk gambar dari kamera
         if(requestCode == 123){
-//            val bmp: Bitmap = data?.extras?.get("data") as Bitmap
-            selectedImageUri = data?.data
-            binding.img.setImageURI(selectedImageUri)
+            val bmp: Bitmap = data?.extras?.get("data") as Bitmap
+            binding.img.setImageBitmap(bmp)
         }else if(requestCode== 456){
             selectedImageUri = data?.data
             binding.img.setImageURI(selectedImageUri)

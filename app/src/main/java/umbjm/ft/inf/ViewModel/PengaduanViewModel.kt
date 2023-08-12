@@ -8,11 +8,13 @@ import com.example.elaporadmin.retrofit.ApiService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.http.Field
 import umbjm.ft.inf.dao.Pengaduan
 import umbjm.ft.inf.dao.ResponsePengaduan
 
 class PengaduanViewModel:ViewModel() {
     private var pengaduanLiveData = MutableLiveData<List<Pengaduan>>()
+    private val pesanLiveData = MutableLiveData<String>()
 
     fun getPengaduan(){
         ApiService.endPoint.getPengaduan()
@@ -48,8 +50,47 @@ class PengaduanViewModel:ViewModel() {
             })
     }
 
+    fun insertPengaduan(
+        judulpengaduan:String,
+        nama:String,
+        telp:String,
+        isipengaduan:String,
+        tanggalpengaduan:String,
+        foto:String,
+        lokasi_id:Int,
+        kelurahan_id:Int,
+        bidang_id:Int,
+        kecamatan_id:Int,
+    ){
+        ApiService.endPoint.insertPengaduan(
+            judulpengaduan,
+            nama,
+            telp,
+            isipengaduan,
+            tanggalpengaduan,
+            foto,
+            lokasi_id,
+            kelurahan_id,
+            bidang_id,
+            kecamatan_id,
+        ).enqueue(object:Callback<SubmitModel>{
+            override fun onResponse(call: Call<SubmitModel>, response: Response<SubmitModel>) {
+                pesanLiveData.value = response.body()?.message
+            }
+
+            override fun onFailure(call: Call<SubmitModel>, t: Throwable) {
+                Log.d("TAG", t.message.toString())
+            }
+
+        })
+    }
+
     fun observePengaduanLiveData():LiveData<List<Pengaduan>>{
         return pengaduanLiveData
+    }
+
+    fun observePesanLiveData():LiveData<String>{
+        return pesanLiveData
     }
 
 }
