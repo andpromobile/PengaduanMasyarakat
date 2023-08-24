@@ -124,7 +124,7 @@
                             android:ems="10"
                             android:hint="Nomor HP"
                             android:importantForAutofill="no"
-                            android:inputType="text"
+                            android:inputType="number"
                             android:padding="10dp"
                             android:textColorHint="@color/medium_teal"
                             android:textSize="20sp"
@@ -219,12 +219,13 @@
                         <AutoCompleteTextView
                             android:id="@+id/frmBidangId"
                             android:layout_width="match_parent"
-                            android:layout_height="56dp"
+                            android:layout_height="wrap_content"
                             android:ems="10"
                             android:gravity="start|top"
                             android:hint="Bidang"
                             android:importantForAutofill="no"
-                            android:inputType="text"
+                            android:inputType="textMultiLine"
+
                             android:padding="16dp"
                             android:textColorHint="@color/medium_teal"
                             android:textSize="20sp"
@@ -356,6 +357,7 @@
                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+
                             android:max="100"
                             tools:progress="40"
                             app:layout_constraintStart_toStartOf="@id/img"
@@ -378,8 +380,12 @@
 
             </androidx.cardview.widget.CardView>
 
-
-
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
+    <ProgressBar
+        android:id="@+id/progressBarLapor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -2,20 +2,18 @@ package umbjm.ft.inf
 
 import android.Manifest
 import android.R
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.provider.OpenableColumns
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
 import android.widget.DatePicker
@@ -23,12 +21,12 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.app.ActivityCompat
-import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.example.elaporadmin.ViewModel.BidangViewModel
 import com.example.elaporadmin.ViewModel.KecamatanViewModel
@@ -37,7 +35,9 @@ import com.example.elaporadmin.ViewModel.LokasiViewModel
 import com.example.elaporadmin.ViewModel.PengaduanViewModel
 import com.example.elaporadmin.ViewModel.SubmitModel
 import com.example.elaporadmin.retrofit.ApiService
-import com.google.android.material.textfield.TextInputEditText
+import id.zelory.compressor.Compressor
+import id.zelory.compressor.constraint.quality
+import id.zelory.compressor.constraint.resolution
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -45,10 +45,7 @@ import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import okhttp3.RequestBody.Companion.toRequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import okhttp3.RequestBody.Companion.asRequestBody
 import umbjm.ft.inf.databinding.ActivityPengaduanBinding
 import java.io.File
 import java.io.FileInputStream
@@ -58,6 +55,10 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.util.UUID
 
 class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
     private lateinit var binding:ActivityPengaduanBinding
@@ -74,6 +75,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     private lateinit var saveImg:ImageButton
     private lateinit var lapor:AppCompatButton
     private lateinit var progressBar: ProgressBar
+    private lateinit var progressBarLapor: ProgressBar
     private var bidangId:Int=0
     private var lokasiId:Int=0
     private var kelurahanId:Int=0
@@ -81,7 +83,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     private var selectedImageUri: Uri? = null
     private lateinit var currentPhotoPath:String
     private lateinit var photoFile:File
-    private var fileName:String = "foto.png"
+    private var fileName:String = ""
     private val pengaduanViewModel: PengaduanViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -89,11 +91,13 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         binding = ActivityPengaduanBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         setPermissions()
         setKomponen()
+        showLoading(true)
         setListener()
         setAutoComplete()
-
+        showLoading(false)
     }
 
     private fun setLog() {
@@ -121,26 +125,33 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
 //        }
 
         if (cekInput()){
-            pengaduanViewModel.insertPengaduan(
-                frmJudul.text.toString(),
-                frmNama.text.toString(),
-                frmNoHp.text.toString(),
-                frmIsi.text.toString(),
-                frmTanggal.text.toString(),
-                fileName,
-                lokasiId,
-                kelurahanId,
-                bidangId,
-                kecamatanId
-            )
+            showLoading(true)
+            lifecycleScope.launch{
+                pengaduanViewModel.insertPengaduan(
+                    frmJudul.text.toString(),
+                    frmNama.text.toString(),
+                    frmNoHp.text.toString(),
+                    frmIsi.text.toString(),
+                    frmTanggal.text.toString(),
+                    fileName,
+                    lokasiId,
+                    kelurahanId,
+                    bidangId,
+                    kecamatanId
+                )
+                Log.d("HABIS INSERT","HABIS INSERT")
+            }
+
 
             pengaduanViewModel.observePesanLiveData().observe(
                 this,
             ) {pesan->
+                Log.d("DALAM OBSERVE","DALAM OBSERVE")
                 SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
                     .setTitleText("Sukses")
                     .setContentText("DATA BERHASIL DISIMPAN")
                     .setConfirmButton("IYA") {
+                        showLoading(false)
                         it.dismissWithAnimation()
 
                         val intent = Intent(
@@ -189,9 +200,11 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     }
 
     private fun kecamatan(){
+
         val kecamatanViewModel = ViewModelProvider(this)[KecamatanViewModel::class.java]
 
         kecamatanViewModel.getKecamatan()
+
         kecamatanViewModel.observeKecamatanLiveData().observe(
             this
         ){ kecamatanList ->
@@ -220,6 +233,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         val kelurahanViewModel = ViewModelProvider(this)[KelurahanViewModel::class.java]
 
         kelurahanViewModel.getKelurahanByKecamatan(id)
+
         kelurahanViewModel.observeKelurahanLiveData().observe(
             this
         ){ lokasiList ->
@@ -249,6 +263,8 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         val lokasiViewModel = ViewModelProvider(this)[LokasiViewModel::class.java]
 
         lokasiViewModel.getLokasiByBidang(bidangId)
+
+
         lokasiViewModel.observeLokasiLiveData().observe(
             this
         ){ lokasiList ->
@@ -278,6 +294,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         val bidangViewModel = ViewModelProvider(this)[BidangViewModel::class.java]
 
         bidangViewModel.getBidang()
+
         bidangViewModel.observeBidangLiveData().observe(
             this
         ){ bidangList ->
@@ -309,14 +326,13 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
             val pictureDialog = AlertDialog.Builder(this)
             pictureDialog.setTitle("Pilih Aksi")
 
-            val pictureDialogItem:Array<String> = arrayOf("Pilih dari Galeri",
-                "Ambil Gambar")
+            val pictureDialogItem:Array<String> = arrayOf("Pilih dari Galeri")
 
             pictureDialog.setItems(pictureDialogItem){
                     dialog, which ->
                 when(which){
                     0 -> galeri()
-                    1 -> kamera()
+//                    1 -> kamera()
                 }
             }
 
@@ -361,6 +377,13 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
             return
         }
 
+        val strFormatDefault = "yyyy-MM-d"//""d MMMM yyyy"
+        val simpleDateFormat =
+            SimpleDateFormat(strFormatDefault, Locale.getDefault())
+
+        val rndm = UUID.randomUUID().toString().substring(0,10) +"_"+
+                simpleDateFormat.format(Calendar.getInstance().time).toString()+".jpg"
+
         val parcelFileDescriptor = contentResolver.openFileDescriptor(selectedImageUri!!,
         "r",
         null)?:return
@@ -369,27 +392,53 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         val outputStream = FileOutputStream(file)
         inputStream.copyTo(outputStream)
 
-        fileName = file.name
+        Log.d("Cek nama file", file.name)
+        Log.d("Cek nama file", file.absolutePath)
+        val renamedFile = File(cacheDir, rndm)
 
-        progressBar.progress = 0
-        val foto = UploadRequestBody(file, "image",this)
-        ApiService.endPoint.uploadImage(
-            MultipartBody.Part.createFormData("foto", file.name, foto)
-        ).enqueue(object: Callback<SubmitModel> {
-            override fun onResponse(call: Call<SubmitModel>, response: Response<SubmitModel>) {
-                if(response.isSuccessful){
+        file.renameTo(renamedFile)
 
-                }else{
+        Log.d("Cek nama file",renamedFile.name)
+        Log.d("Cek nama file", renamedFile.absolutePath)
+
+//        var compressedImageFile = renamedFile
+        lifecycleScope.launch {
+            val compressedImageFile = Compressor.compress(applicationContext, renamedFile){
+                resolution(800,600)
+                quality(80)
+            }
+
+            fileName = compressedImageFile.name
+
+            Log.d("Cek nama file",compressedImageFile.name)
+            Log.d("Cek nama file", compressedImageFile.absolutePath)
+
+            progressBar.progress = 0
+//            val foto = UploadRequestBody(compressedImageFile, "image",this)
+            val foto = compressedImageFile.asRequestBody("image/*".toMediaTypeOrNull())
+
+            ApiService.api.uploadImage(
+                MultipartBody.Part.createFormData("foto", compressedImageFile.name, foto)
+            ).enqueue(object: Callback<SubmitModel> {
+                override fun onResponse(call: Call<SubmitModel>, response: Response<SubmitModel>) {
+                    if(response.isSuccessful){
+
+                    }else{
+
+                    }
+                    SweetAlertDialog(applicationContext, SweetAlertDialog.SUCCESS_TYPE)
+                        .setContentText("Berhasil Upload Gambar")
+                        .show()
+                    progressBar.progress = 100
+                }
+
+                override fun onFailure(call: Call<SubmitModel>, t: Throwable) {
 
                 }
-                progressBar.progress = 100
-            }
 
-            override fun onFailure(call: Call<SubmitModel>, t: Throwable) {
+            })
 
-            }
-
-        })
+        }
     }
 
     private fun setKomponen() {
@@ -406,6 +455,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         saveImg = binding.saveImg!!
         lapor = binding.lapor as AppCompatButton
         progressBar = binding.progressBar!!
+        progressBarLapor = binding.progressBarLapor!!
     }
 
     private fun setPermissions() {
@@ -484,6 +534,15 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
             currentPhotoPath = absolutePath
         }
     }
+
+    private fun showLoading(loading:Boolean){
+        when(loading){
+            true -> progressBarLapor.visibility = View.VISIBLE
+            false -> progressBarLapor.visibility = View.GONE
+        }
+    }
+
+
 }
 
 

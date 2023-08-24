@@ -5,6 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.elaporadmin.retrofit.ApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,29 +20,37 @@ class BidangViewModel: ViewModel() {
     private val pesanLiveData = MutableLiveData<String>()
 
     fun getBidang() {
-        ApiService.endPoint.getBidang()
-            .enqueue(object  : Callback<ResponseBidang> {
-            override fun onResponse(
-                call: Call<ResponseBidang>,
-                response: Response<ResponseBidang>,
-            ) {
-
-                if (response.body()!=null){
+        GlobalScope.launch (Dispatchers.IO){
+            val response = ApiService.api.getBidang()
+            if (response.isSuccessful){
+                withContext(Dispatchers.Main){
                     bidangLiveData.value = response.body()!!.data
-
-                    Log.d("HASIL BIDANG",bidangLiveData.value.toString())
                 }
-                else{
+            }
+        }
+//        ApiService.api.getBidang()
+//            .enqueue(object  : Callback<ResponseBidang> {
+//            override fun onResponse(
+//                call: Call<ResponseBidang>,
+//                response: Response<ResponseBidang>,
+//            ) {
+//
+//                if (response.body()!=null){
+//                    bidangLiveData.value = response.body()!!.data
+//
 //                    Log.d("HASIL BIDANG",bidangLiveData.value.toString())
-//                    return
-                }
-
-//                Log.d("HASIL BIDANG","TES AJA")
-            }
-            override fun onFailure(call: Call<ResponseBidang>, t: Throwable) {
-                Log.d("TAG",t.message.toString())
-            }
-        })
+//                }
+//                else{
+////                    Log.d("HASIL BIDANG",bidangLiveData.value.toString())
+////                    return
+//                }
+//
+////                Log.d("HASIL BIDANG","TES AJA")
+//            }
+//            override fun onFailure(call: Call<ResponseBidang>, t: Throwable) {
+//                Log.d("TAG",t.message.toString())
+//            }
+//        })
     }
 
 //    fun insertBidang(namabidang:String, seksi:String){

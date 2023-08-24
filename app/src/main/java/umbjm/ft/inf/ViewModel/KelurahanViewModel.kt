@@ -5,6 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.elaporadmin.retrofit.ApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,7 +20,7 @@ class KelurahanViewModel:ViewModel() {
     private val pesanLiveData = MutableLiveData<String>()
 
     fun getKelurahan() {
-        ApiService.endPoint.getKelurahan()
+        ApiService.api.getKelurahan()
             .enqueue(object  : Callback<ResponseKelurahan> {
                 override fun onResponse(
                     call: Call<ResponseKelurahan>,
@@ -36,43 +40,62 @@ class KelurahanViewModel:ViewModel() {
     }
 
     fun getKelurahanByLokasi(id:Int) {
-        ApiService.endPoint.getKelurahanByLokasi(id)
-            .enqueue(object  : Callback<ResponseKelurahan> {
-                override fun onResponse(
-                    call: Call<ResponseKelurahan>,
-                    response: Response<ResponseKelurahan>,
-                ) {
-                    if (response.body()!=null){
-                        kelurahanLiveData.value = response.body()!!.data
-                    }
-                    else{
-                        return
-                    }
+        GlobalScope.launch (Dispatchers.IO){
+            val response = ApiService.api.getKelurahanByLokasi(id)
+            if (response.isSuccessful){
+                withContext(Dispatchers.Main){
+                    kelurahanLiveData.value = response.body()!!.data
                 }
-                override fun onFailure(call: Call<ResponseKelurahan>, t: Throwable) {
-                    Log.d("TAG",t.message.toString())
-                }
-            })
+            }
+        }
+
+//        ApiService.api.getKelurahanByLokasi(id)
+//            .enqueue(object  : Callback<ResponseKelurahan> {
+//                override fun onResponse(
+//                    call: Call<ResponseKelurahan>,
+//                    response: Response<ResponseKelurahan>,
+//                ) {
+//                    if (response.body()!=null){
+//                        kelurahanLiveData.value = response.body()!!.data
+//                    }
+//                    else{
+//                        return
+//                    }
+//                }
+//                override fun onFailure(call: Call<ResponseKelurahan>, t: Throwable) {
+//                    Log.d("TAG",t.message.toString())
+//                }
+//            })
     }
 
     fun getKelurahanByKecamatan(id:Int) {
-        ApiService.endPoint.getKelurahanByKecamatan(id)
-            .enqueue(object  : Callback<ResponseKelurahan> {
-                override fun onResponse(
-                    call: Call<ResponseKelurahan>,
-                    response: Response<ResponseKelurahan>,
-                ) {
-                    if (response.body()!=null){
-                        kelurahanLiveData.value = response.body()!!.data
-                    }
-                    else{
-                        return
-                    }
+
+        GlobalScope.launch (Dispatchers.IO){
+            val response = ApiService.api.getKelurahanByKecamatan(id)
+            if (response.isSuccessful){
+                withContext(Dispatchers.Main){
+                    kelurahanLiveData.value = response.body()!!.data
                 }
-                override fun onFailure(call: Call<ResponseKelurahan>, t: Throwable) {
-                    Log.d("TAG",t.message.toString())
-                }
-            })
+            }
+        }
+
+//        ApiService.api.getKelurahanByKecamatan(id)
+//            .enqueue(object  : Callback<ResponseKelurahan> {
+//                override fun onResponse(
+//                    call: Call<ResponseKelurahan>,
+//                    response: Response<ResponseKelurahan>,
+//                ) {
+//                    if (response.body()!=null){
+//                        kelurahanLiveData.value = response.body()!!.data
+//                    }
+//                    else{
+//                        return
+//                    }
+//                }
+//                override fun onFailure(call: Call<ResponseKelurahan>, t: Throwable) {
+//                    Log.d("TAG",t.message.toString())
+//                }
+//            })
     }
 
 //    fun insertKelurahan(namakelurahan:String, namakecamatan:String){

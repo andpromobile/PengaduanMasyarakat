@@ -5,8 +5,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.ProgressBar
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import cn.pedant.SweetAlert.SweetAlertDialog
@@ -19,7 +21,8 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var btnPengaduan:androidx.appcompat.widget.AppCompatButton
     private lateinit var btnProses:androidx.appcompat.widget.AppCompatButton
     private lateinit var txtToken:EditText
-    private var size = 0;
+    private var sizeList:Int = 0;
+    private lateinit var progressBar:ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
@@ -43,21 +46,20 @@ class SplashActivity : AppCompatActivity() {
     private fun setAlert() {
         btnProses.setOnClickListener {
             if (!txtToken.text.toString().isEmpty()){
-
-
+                showLoading(true)
                 val pengaduanViewModel = ViewModelProvider(this)[PengaduanViewModel::class.java]
 
                 pengaduanViewModel.getPengaduanByToken(txtToken.text.toString())
                 pengaduanViewModel.observePengaduanLiveData().observe(
                     this
-                ){
-                    size = it.count()
-                }
-
-                if (size > 0 ){
+                ){listPengaduan->
+                    sizeList = listPengaduan.count()
+                    if (sizeList > 0 ){
                     val intent = Intent(
                         this@SplashActivity,
                         StatusActivity::class.java)
+
+                        showLoading(false)
 
                     intent.putExtra("TOKEN",txtToken.text.toString())
                     startActivity(intent)
@@ -65,6 +67,7 @@ class SplashActivity : AppCompatActivity() {
                     SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                         .setContentText("Belum ada pengaduan yang anda ajukan!!!")
                         .show()
+                }
                 }
 
                 }else{
@@ -79,5 +82,15 @@ class SplashActivity : AppCompatActivity() {
         btnPengaduan = binding.btnPengaduan
         btnProses = binding.btnProses
         txtToken = binding.txtToken
+        progressBar = binding.progressBar
+
+        showLoading(false)
+    }
+
+    private fun showLoading(loading:Boolean){
+        when(loading){
+            true -> progressBar.visibility = View.VISIBLE
+            false -> progressBar.visibility = View.GONE
+        }
     }
 }

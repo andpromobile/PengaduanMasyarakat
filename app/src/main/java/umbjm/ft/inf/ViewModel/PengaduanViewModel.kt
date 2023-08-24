@@ -4,11 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.elaporadmin.retrofit.ApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.http.Field
 import umbjm.ft.inf.dao.Pengaduan
 import umbjm.ft.inf.dao.ResponsePengaduan
 
@@ -17,7 +20,8 @@ class PengaduanViewModel:ViewModel() {
     private val pesanLiveData = MutableLiveData<String>()
 
     fun getPengaduan(){
-        ApiService.endPoint.getPengaduan()
+
+        ApiService.api.getPengaduan()
             .enqueue(object :Callback<ResponsePengaduan>{
                 override fun onResponse(
                     call: Call<ResponsePengaduan>,
@@ -34,20 +38,30 @@ class PengaduanViewModel:ViewModel() {
     }
 
     fun getPengaduanByToken(token:String){
-        ApiService.endPoint.getPengaduanByToken(token)
-            .enqueue(object :Callback<ResponsePengaduan>{
-                override fun onResponse(
-                    call: Call<ResponsePengaduan>,
-                    response: Response<ResponsePengaduan>
-                ) {
+
+        viewModelScope.launch{
+             val response = ApiService.api.getPengaduanByToken(token)
+            if (response.isSuccessful){
+                withContext(Dispatchers.Main){
                     pengaduanLiveData.value = response.body()!!.data
                 }
+            }
+        }
 
-                override fun onFailure(call: Call<ResponsePengaduan>, t: Throwable) {
-                    Log.d("TAG", t.message.toString())
-                }
-
-            })
+//        ApiService.api.getPengaduanByToken(token)
+//            .enqueue(object :Callback<ResponsePengaduan>{
+//                override fun onResponse(
+//                    call: Call<ResponsePengaduan>,
+//                    response: Response<ResponsePengaduan>
+//                ) {
+//                    pengaduanLiveData.value = response.body()!!.data
+//                }
+//
+//                override fun onFailure(call: Call<ResponsePengaduan>, t: Throwable) {
+//                    Log.d("TAG", t.message.toString())
+//                }
+//
+//            })
     }
 
     fun insertPengaduan(
@@ -62,7 +76,7 @@ class PengaduanViewModel:ViewModel() {
         bidang_id:Int,
         kecamatan_id:Int,
     ){
-        ApiService.endPoint.insertPengaduan(
+        ApiService.api.insertPengaduan(
             judulpengaduan,
             nama,
             telp,

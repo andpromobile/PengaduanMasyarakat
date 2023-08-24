@@ -2,8 +2,8 @@ package com.example.elaporadmin.retrofit
 
 import com.example.elaporadmin.ViewModel.SubmitModel
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -40,12 +40,12 @@ interface ApiEndPoint {
 
 
     @GET("dtxpengaduan/getByToken/{token}")
-    fun getPengaduanByToken(
+    suspend fun getPengaduanByToken(
         @Path("token") token:String,
-    ): Call<ResponsePengaduan>
+    ): Response<ResponsePengaduan>
 
     @GET("dtxkecamatan")
-    fun getKecamatan(): Call<ResponseKecamatan>
+    suspend fun getKecamatan(): Response<ResponseKecamatan>
 
     @GET("dtxkelurahan")
     fun getKelurahan(): Call<ResponseKelurahan>
@@ -53,8 +53,13 @@ interface ApiEndPoint {
     @GET("dtxlokasi")
     fun getLokasi(): Call<ResponseLokasi>
 
+    @GET("dtxlokasi/show/{id}")
+    suspend fun getLokasiById(
+        @Path("id") id: Int
+    ):Response<ResponseLokasi>
+
     @GET("dtxbidang")
-    fun getBidang(): Call<ResponseBidang>
+    suspend fun getBidang(): Response<ResponseBidang>
 
     @FormUrlEncoded
     @POST("dtxlokasi/store")
@@ -81,19 +86,19 @@ interface ApiEndPoint {
     ): Call<SubmitModel>
 
     @GET("dtxlokasi/showByBidang/{id}")
-    fun getLokasiByBidang(
+    suspend fun getLokasiByBidang(
         @Path("id") id:Int
-    ):Call<ResponseLokasi>
+    ):Response<ResponseLokasi>
 
     @GET("dtxkelurahan/showByLokasi/{id}")
-    fun getKelurahanByLokasi(
+    suspend fun getKelurahanByLokasi(
         @Path("id") id:Int
-    ):Call<ResponseKelurahan>
+    ):Response<ResponseKelurahan>
 
     @GET("dtxkelurahan/showByKecamatan/{id}")
-    fun getKelurahanByKecamatan(
+    suspend fun getKelurahanByKecamatan(
         @Path("id") id:Int
-    ):Call<ResponseKelurahan>
+    ):Response<ResponseKelurahan>
 
     @Multipart
     @POST("dtxpengaduan/upload")

@@ -103,7 +103,7 @@
                         android:inputType="text"
                         android:padding="10dp"
                         android:text=""
-                        android:textColor="@color/white"
+                        android:textColor="@color/black"
                         android:textColorHint="#37474F" />
 
                 </LinearLayout>
@@ -140,8 +140,9 @@
                         android:gravity="center"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="FKT001"
-                        android:textSize="56sp"/>
+                        tools:text="FKT001"
+                        android:textIsSelectable="true"
+                        android:textSize="48sp"/>
 
                     <TextView
                         android:textSize="16sp"

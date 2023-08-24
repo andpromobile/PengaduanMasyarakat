@@ -2,7 +2,7 @@ package umbjm.ft.inf
 
 import android.os.Handler
 import android.os.Looper
-import okhttp3.MediaType
+import kotlinx.coroutines.CoroutineScope
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody
 import okio.BufferedSink
@@ -12,7 +12,7 @@ import java.io.FileInputStream
 class UploadRequestBody(
     private val file: File,
     private val contentType: String,
-    private val callback: UploadCallback
+    private val callback: CoroutineScope
 ) : RequestBody() {
     override fun contentType() = "$contentType/*".toMediaTypeOrNull()
 
@@ -43,7 +43,7 @@ class UploadRequestBody(
         private val total: Long
     ) : Runnable {
         override fun run() {
-            callback.onProgressUpdate((100 * uploaded / total).toInt())
+//            onProgressUpdate((100 * uploaded / total).toInt())
         }
     }
 

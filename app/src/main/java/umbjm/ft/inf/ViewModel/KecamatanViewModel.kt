@@ -5,6 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.elaporadmin.retrofit.ApiService
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,23 +22,31 @@ class KecamatanViewModel:ViewModel() {
     private val pesanLiveData = MutableLiveData<String>()
 
     fun getKecamatan() {
-        ApiService.endPoint.getKecamatan()
-            .enqueue(object  : Callback<ResponseKecamatan> {
-                override fun onResponse(
-                    call: Call<ResponseKecamatan>,
-                    response: Response<ResponseKecamatan>,
-                ) {
-                    if (response.body()!=null){
-                        kecamatanLiveData.value = response.body()!!.data
-                    }
-                    else{
-                        return
-                    }
+        GlobalScope.launch(Dispatchers.IO){
+            val response = ApiService.api.getKecamatan()
+            if (response.isSuccessful){
+                withContext(Dispatchers.Main){
+                    kecamatanLiveData.value = response.body()!!.data
                 }
-                override fun onFailure(call: Call<ResponseKecamatan>, t: Throwable) {
-                    Log.d("TAG",t.message.toString())
-                }
-            })
+            }
+        }
+//        ApiService.api.getKecamatan()
+//            .enqueue(object  : Callback<ResponseKecamatan> {
+//                override fun onResponse(
+//                    call: Call<ResponseKecamatan>,
+//                    response: Response<ResponseKecamatan>,
+//                ) {
+//                    if (response.body()!=null){
+//                        kecamatanLiveData.value = response.body()!!.data
+//                    }
+//                    else{
+//                        return
+//                    }
+//                }
+//                override fun onFailure(call: Call<ResponseKecamatan>, t: Throwable) {
+//                    Log.d("TAG",t.message.toString())
+//                }
+//            })
     }
 
 //    fun getKelurahanByLokasi(id:Int) {
