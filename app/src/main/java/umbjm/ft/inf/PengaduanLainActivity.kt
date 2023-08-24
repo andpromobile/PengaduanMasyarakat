@@ -2,6 +2,7 @@ package umbjm.ft.inf
 
 import android.Manifest
 import android.R
+import android.app.Activity
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -61,6 +62,7 @@ class PengaduanLainActivity : AppCompatActivity() {
     private lateinit var frmKelurahanId: AutoCompleteTextView
     private lateinit var btnImg: ImageButton
     private lateinit var saveImg: ImageButton
+    private lateinit var btnPeta:ImageButton
     private lateinit var lapor: AppCompatButton
     private lateinit var progressBar: ProgressBar
     private lateinit var progressBarLapor: ProgressBar
@@ -118,6 +120,13 @@ class PengaduanLainActivity : AppCompatActivity() {
         saveImg.setOnClickListener {
             doUpload()
         }
+
+        btnPeta.setOnClickListener {
+            startActivityForResult(
+                Intent(this, MapsActivity::class.java),
+                999
+            )
+        }
     }
 
     private fun doUpload() {
@@ -125,11 +134,7 @@ class PengaduanLainActivity : AppCompatActivity() {
                 return
             }
 
-//        val strFormatDefault = "yyyy-MM-d"//""d MMMM yyyy"
-//        val simpleDateFormat =
-//            SimpleDateFormat(strFormatDefault, Locale.getDefault())
-
-            val rndm = UUID.randomUUID().toString().substring(0,10) +"_"+tanggal+".jpg"
+        val rndm = UUID.randomUUID().toString().substring(0,10) +"_"+tanggal+".jpg"
 
             val parcelFileDescriptor = contentResolver.openFileDescriptor(selectedImageUri!!,
                 "r",
@@ -301,13 +306,14 @@ class PengaduanLainActivity : AppCompatActivity() {
         frmNoHp = binding.frmNoHPLain
         frmJudul = binding.frmJudulLain
         frmIsi = binding.frmIsiLain
-        namaLokasi = binding.frmLokasiLain
+        namalokasi = binding.frmLokasiLain
         alamat = binding.frmAlamatLokasiLain
         latitude = binding.frmLatitude
         longitude = binding.frmLongitude
         frmKelurahanId = binding.frmKelurahanIdLain
         btnImg = binding.uploadImgLain
         saveImg = binding.saveImgLain
+        btnPeta = binding.btnPetaLain
         lapor = binding.laporLain
         progressBar = binding.progressBar
         progressBarLapor = binding.progressBarLaporLain
@@ -329,6 +335,15 @@ class PengaduanLainActivity : AppCompatActivity() {
             selectedImageUri = data?.data
             binding.imgLain.setImageURI(selectedImageUri)
 
+        }
+
+        // Menampung hasil pemilihan lokasi
+        // dari nilai Latitude dan Longitude
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 999) {
+                latitude.setText(data?.getStringExtra("latitude"))
+                longitude.setText(data?.getStringExtra("longitude"))
+            }
         }
 
     }

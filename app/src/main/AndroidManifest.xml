@@ -21,9 +21,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".MapsActivity"
+            android:exported="false" />
+        <activity
             android:name=".PengaduanLainActivity"
             android:exported="false"
-            android:parentActivityName=".SplashActivity"/>
+            android:parentActivityName=".SplashActivity" />
         <activity
             android:name=".StatusActivity"
             android:exported="false"
@@ -34,10 +37,10 @@
         <activity
             android:name=".PengaduanActivity"
             android:exported="false"
-            android:parentActivityName=".SplashActivity"></activity>
+            android:parentActivityName=".SplashActivity" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".SplashActivity"
             android:exported="true">
