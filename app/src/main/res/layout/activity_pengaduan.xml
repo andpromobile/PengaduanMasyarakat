@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,61 +8,23 @@
     android:background="@color/light_blue"
     tools:context=".PengaduanActivity">
 
-<!--    &lt;!&ndash;AppBarLayout helps the toolbar and other components to react on-->
-<!--        scroll changes. I am using Dark theme for AppBarLayout.-->
-<!--        Inside this AppBarLayout i-->
-<!--        have used CollapsingToolbarLayout. &ndash;&gt;-->
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:id="@+id/appBarLayout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">-->
-
-<!--        &lt;!&ndash; In CollapsingToolbarLayout some important attributes are:-->
-<!--        i) app:layout_scrollFlags which is used to specify how collapsing-->
-<!--            layout behaves when content is scrolled.I have used-->
-<!--            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"-->
-<!--            so it will scroll until it's is completely collapsed.-->
-<!--        ii) app:contentScrim="@color/green" that specifies the color-->
-<!--            of the collapsed toolbar &ndash;&gt;-->
-<!--        <com.google.android.material.appbar.CollapsingToolbarLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:collapsedTitleTextColor="@color/white"-->
-<!--            app:expandedTitleTextColor="@color/white"-->
-<!--            app:contentScrim="@color/light_teal"-->
-<!--            app:layout_scrollFlags="scroll|snap|exitUntilCollapsed"-->
-<!--            app:title="Pengaduan">-->
-
-<!--            &lt;!&ndash;We are adding the image that we have added earlier-->
-<!--                in the drawable folder.The attribute app:layout_collapseMode="parallax"-->
-<!--                causes the image to move when user scrolls at a specific ratio. &ndash;&gt;-->
-<!--            <ImageView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="200dp"-->
-<!--                android:scaleType="centerCrop"-->
-<!--                android:src="@drawable/cover"-->
-<!--                app:layout_collapseMode="parallax"-->
-<!--                tools:ignore="ContentDescription" />-->
-
-<!--            &lt;!&ndash; The attribute app:layout_collapseMode="pin" is set so that-->
-<!--                sticks to the top when the user scrolls the view up&ndash;&gt;-->
-
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="?attr/actionBarSize"-->
-<!--                app:layout_collapseMode="pin"-->
-<!--                app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />-->
-
-<!--        </com.google.android.material.appbar.CollapsingToolbarLayout>-->
-
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
-
-    <androidx.core.widget.NestedScrollView
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarPengaduan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/dark_blue"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_marginBottom="16dp"
+        android:background="@color/dark_teal"
+        android:elevation="24dp"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:title="PENGADUAN"
+        app:titleTextColor="#FFFFFF" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/toolbarPengaduan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/dark_blue">
+        
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -72,7 +35,7 @@
                 android:id="@+id/cv1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+
                 android:background="@color/white"
                 android:elevation="10dp"
                 app:cardBackgroundColor="@color/white"
@@ -183,29 +146,29 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        app:boxBackgroundMode="outline"
-                        app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="24dp"-->
+<!--                        app:boxBackgroundMode="outline"-->
+<!--                        app:boxStrokeColor="@color/dark_teal"-->
+<!--                        app:boxBackgroundColor="@color/light_teal">-->
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/frmTanggal"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:ems="10"
-                            android:hint="Tanggal"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:padding="10dp"
-                            android:textColorHint="@color/medium_teal"
-                            android:textSize="20sp"
-                            android:textColor="@color/dark_teal"
-                            tools:ignore="HardcodedText" />
+<!--                        <com.google.android.material.textfield.TextInputEditText-->
+<!--                            android:id="@+id/frmTanggal"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="56dp"-->
+<!--                            android:ems="10"-->
+<!--                            android:hint="Tanggal"-->
+<!--                            android:importantForAutofill="no"-->
+<!--                            android:inputType="text"-->
+<!--                            android:padding="10dp"-->
+<!--                            android:textColorHint="@color/medium_teal"-->
+<!--                            android:textSize="20sp"-->
+<!--                            android:textColor="@color/dark_teal"-->
+<!--                            tools:ignore="HardcodedText" />-->
 
-                    </com.google.android.material.textfield.TextInputLayout>
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
@@ -346,12 +309,12 @@
                             android:layout_height="48dp"
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
-                            android:background="@drawable/button_background"
+                            android:background="@drawable/button_background2"
                             android:contentDescription="@string/tombol_gambar"
                             app:layout_constraintBottom_toBottomOf="@+id/img"
                             app:layout_constraintEnd_toStartOf="@+id/uploadImg"
                             app:srcCompat="@drawable/baseline_save_24" />
-                        
+
                         <ProgressBar
                             android:id="@+id/progressBar"
                             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
@@ -383,9 +346,10 @@
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
     <ProgressBar
+        android:visibility="visible"
         android:id="@+id/progressBarLapor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_centerInParent="true"
         />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</RelativeLayout>

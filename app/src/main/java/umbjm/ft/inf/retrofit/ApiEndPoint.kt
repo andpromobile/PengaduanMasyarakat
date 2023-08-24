@@ -23,6 +23,10 @@ interface ApiEndPoint {
     @GET("dtxpengaduan")
     fun getPengaduan(): Call<ResponsePengaduan>
 
+    @GET("dtxpengaduanlain")
+    suspend fun getPengaduanLain(): Response<ResponsePengaduan>
+
+
     @FormUrlEncoded
     @POST("dtxpengaduan/store")
     fun insertPengaduan(
@@ -38,6 +42,21 @@ interface ApiEndPoint {
         @Field("kecamatan_id") kecamatan_id:Int,
     ): Call<SubmitModel>
 
+    @FormUrlEncoded
+    @POST("dtxpengaduanlain/store")
+    fun insertPengaduanLain(
+        @Field("judulpengaduan") judulpengaduan:String,
+        @Field("nama") nama:String,
+        @Field("telp") telp:String,
+        @Field("namalokasi") namalokasi:String,
+        @Field("alamat") alamat:String,
+        @Field("latitude") latitude:String,
+        @Field("longitude") longitude:String,
+        @Field("isipengaduan") isipengaduan:String,
+        @Field("tanggalpengaduan") tanggalpengaduan:String,
+        @Field("foto") foto:String,
+        @Field("kelurahan_id") kelurahan_id:Int,
+    ): Call<SubmitModel>
 
     @GET("dtxpengaduan/getByToken/{token}")
     suspend fun getPengaduanByToken(

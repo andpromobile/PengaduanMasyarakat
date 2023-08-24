@@ -35,11 +35,8 @@ class SplashActivity : AppCompatActivity() {
 
     private fun toPengaduan() {
         btnPengaduan.setOnClickListener{
-            val intent = Intent(
-                this@SplashActivity,
-                PengaduanActivity::class.java)
-
-            startActivity(intent)
+            val bottomSheet = BottomSheetPengaduan()
+            bottomSheet.show(supportFragmentManager, "Bottom Sheet Pengaduan")
         }
     }
 
@@ -55,9 +52,7 @@ class SplashActivity : AppCompatActivity() {
                 ){listPengaduan->
                     sizeList = listPengaduan.count()
                     if (sizeList > 0 ){
-                    val intent = Intent(
-                        this@SplashActivity,
-                        StatusActivity::class.java)
+                        val intent = Intent(this@SplashActivity, StatusActivity::class.java)
 
                         showLoading(false)
 

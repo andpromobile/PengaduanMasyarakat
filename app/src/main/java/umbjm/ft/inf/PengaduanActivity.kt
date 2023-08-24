@@ -20,6 +20,7 @@ import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
+import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -66,7 +67,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     private lateinit var frmNoHp: EditText
     private lateinit var frmJudul: EditText
     private lateinit var frmIsi: EditText
-    private lateinit var frmTanggal: EditText
+//    private lateinit var frmTanggal: EditText
     private lateinit var frmBidangId: AutoCompleteTextView
     private lateinit var frmLokasiId: AutoCompleteTextView
     private lateinit var frmKelurahanId: AutoCompleteTextView
@@ -76,6 +77,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     private lateinit var lapor:AppCompatButton
     private lateinit var progressBar: ProgressBar
     private lateinit var progressBarLapor: ProgressBar
+    private lateinit var toolbarPengaduan:androidx.appcompat.widget.Toolbar
     private var bidangId:Int=0
     private var lokasiId:Int=0
     private var kelurahanId:Int=0
@@ -85,59 +87,37 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     private lateinit var photoFile:File
     private var fileName:String = ""
     private val pengaduanViewModel: PengaduanViewModel by viewModels()
+    private val strFormatDefault = "yyyy-MM-d"//""d MMMM yyyy"
+    private val tanggal = SimpleDateFormat(strFormatDefault, Locale.getDefault())
+        .format(Calendar.getInstance().time).toString()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityPengaduanBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        toolbarPengaduan = binding.toolbarPengaduan!!
+        setSupportActionBar(toolbarPengaduan)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
+
 
         setPermissions()
         setKomponen()
-        showLoading(true)
         setListener()
         setAutoComplete()
         showLoading(false)
     }
 
-    private fun setLog() {
-//        'judulpengaduan' => 'required',
-//        'nama'  => 'required',
-//        'telp'  => 'required',
-//        'isipengaduan'  => 'required',
-//        'tanggalpengaduan'  => 'required',
-//        'foto'  => 'required',
-//        'lokasi_id'  => 'required',
-//        'kelurahan_id'=>'required',
-//        'bidang_id'=>'required',
-//        'kecamatan_id'=>'required',
-//        CoroutineScope(Dispatchers.IO).launch {
-//            Log.d("FORM", frmJudul.text.toString())
-//            Log.d("FORM", frmNama.text.toString())
-//            Log.d("FORM", frmNoHp.text.toString())
-//            Log.d("FORM", frmIsi.text.toString())
-//            Log.d("FORM", frmTanggal.text.toString())
-//            Log.d("FORM", fileName)
-//            Log.d("FORM", lokasiId.toString())
-//            Log.d("FORM", kelurahanId.toString())
-//            Log.d("FORM", bidangId.toString())
-//            Log.d("FORM", kecamatanId.toString())
-//        }
-
+    private fun insertPengaduan() {
         if (cekInput()){
             showLoading(true)
             lifecycleScope.launch{
                 pengaduanViewModel.insertPengaduan(
-                    frmJudul.text.toString(),
-                    frmNama.text.toString(),
-                    frmNoHp.text.toString(),
-                    frmIsi.text.toString(),
-                    frmTanggal.text.toString(),
-                    fileName,
-                    lokasiId,
-                    kelurahanId,
-                    bidangId,
-                    kecamatanId
+                    frmJudul.text.toString(), frmNama.text.toString(),
+                    frmNoHp.text.toString(), frmIsi.text.toString(),
+                    tanggal, fileName,
+                    lokasiId, kelurahanId, bidangId, kecamatanId
                 )
                 Log.d("HABIS INSERT","HABIS INSERT")
             }
@@ -154,41 +134,28 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
                         showLoading(false)
                         it.dismissWithAnimation()
 
-                        val intent = Intent(
-                            this@PengaduanActivity,
-                            MainActivity::class.java,
-                        )
-
-
+                        val intent = Intent(this@PengaduanActivity,
+                            MainActivity::class.java,)
 
                         intent.putExtra("TOKEN", pesan.toString())
-
                         startActivity(intent)
-
                     }
                     .show()
             }
 
-
-
-
-        }else{
+       }else{
             SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 .setContentText("Input Tidak Boleh Kosong!!!")
                 .show()
         }
-
-
     }
 
     private fun cekInput():Boolean {
         var cek = false
         if (
-            (frmJudul.text.toString() != "") &&
-            (frmNama.text.toString() != "") &&
-            (frmNoHp.text.toString() != "") &&
-            (frmIsi.text.toString() != "") &&
-            (frmTanggal.text.toString() != "")
+            (frmJudul.text.toString() != "") && (frmNama.text.toString() != "") &&
+            (frmNoHp.text.toString() != "") && (frmIsi.text.toString() != "") //&&
+//            (frmTanggal.text.toString() != "")
         ) cek = true
 
         return cek
@@ -196,7 +163,6 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
 
     private fun setAutoComplete() {
         bidang()
-
     }
 
     private fun kecamatan(){
@@ -340,31 +306,31 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         }
 
         lapor.setOnClickListener {
-            setLog()
+            insertPengaduan()
         }
 
-        frmTanggal.setOnClickListener {
-            val tanggalLapor: Calendar = Calendar.getInstance()
-            val date =
-                DatePickerDialog.OnDateSetListener {
-                        view1: DatePicker?,
-                        year: Int, monthOfYear: Int,
-                        dayOfMonth: Int ->
-                    tanggalLapor.set(Calendar.YEAR, year)
-                    tanggalLapor.set(Calendar.MONTH, monthOfYear)
-                    tanggalLapor.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-                    val strFormatDefault = "yyyy-MM-d"//""d MMMM yyyy"
-                    val simpleDateFormat =
-                        SimpleDateFormat(strFormatDefault, Locale.getDefault())
-                    frmTanggal.setText(simpleDateFormat.format(tanggalLapor.time))
-                }
-            DatePickerDialog(
-                this@PengaduanActivity, date,
-                tanggalLapor.get(Calendar.YEAR),
-                tanggalLapor.get(Calendar.MONTH),
-                tanggalLapor.get(Calendar.DAY_OF_MONTH)
-            ).show()
-        }
+//        frmTanggal.setOnClickListener {
+//            val tanggalLapor: Calendar = Calendar.getInstance()
+//            val date =
+//                DatePickerDialog.OnDateSetListener {
+//                        view1: DatePicker?,
+//                        year: Int, monthOfYear: Int,
+//                        dayOfMonth: Int ->
+//                    tanggalLapor.set(Calendar.YEAR, year)
+//                    tanggalLapor.set(Calendar.MONTH, monthOfYear)
+//                    tanggalLapor.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+//                    val strFormatDefault = "yyyy-MM-d"//""d MMMM yyyy"
+//                    val simpleDateFormat =
+//                        SimpleDateFormat(strFormatDefault, Locale.getDefault())
+//                    frmTanggal.setText(simpleDateFormat.format(tanggalLapor.time))
+//                }
+//            DatePickerDialog(
+//                this@PengaduanActivity, date,
+//                tanggalLapor.get(Calendar.YEAR),
+//                tanggalLapor.get(Calendar.MONTH),
+//                tanggalLapor.get(Calendar.DAY_OF_MONTH)
+//            ).show()
+//        }
 
         saveImg.setOnClickListener {
             doUpload()
@@ -377,12 +343,11 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
             return
         }
 
-        val strFormatDefault = "yyyy-MM-d"//""d MMMM yyyy"
-        val simpleDateFormat =
-            SimpleDateFormat(strFormatDefault, Locale.getDefault())
+//        val strFormatDefault = "yyyy-MM-d"//""d MMMM yyyy"
+//        val simpleDateFormat =
+//            SimpleDateFormat(strFormatDefault, Locale.getDefault())
 
-        val rndm = UUID.randomUUID().toString().substring(0,10) +"_"+
-                simpleDateFormat.format(Calendar.getInstance().time).toString()+".jpg"
+        val rndm = UUID.randomUUID().toString().substring(0,10) +"_"+tanggal+".jpg"
 
         val parcelFileDescriptor = contentResolver.openFileDescriptor(selectedImageUri!!,
         "r",
@@ -426,7 +391,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
                     }else{
 
                     }
-                    SweetAlertDialog(applicationContext, SweetAlertDialog.SUCCESS_TYPE)
+                    SweetAlertDialog(this@PengaduanActivity, SweetAlertDialog.SUCCESS_TYPE)
                         .setContentText("Berhasil Upload Gambar")
                         .show()
                     progressBar.progress = 100
@@ -446,7 +411,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         frmNoHp = binding.frmNoHP!!
         frmJudul = binding.frmJudul!!
         frmIsi = binding.frmIsi!!
-        frmTanggal = binding.frmTanggal!!
+//        frmTanggal = binding.frmTanggal!!
         frmBidangId = binding.frmBidangId!!
         frmLokasiId = binding.frmLokasiId!!
         frmKelurahanId = binding.frmKelurahanId!!

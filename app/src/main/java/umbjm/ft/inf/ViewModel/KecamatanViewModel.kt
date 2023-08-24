@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.elaporadmin.retrofit.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,7 +23,7 @@ class KecamatanViewModel:ViewModel() {
     private val pesanLiveData = MutableLiveData<String>()
 
     fun getKecamatan() {
-        GlobalScope.launch(Dispatchers.IO){
+        viewModelScope.launch{
             val response = ApiService.api.getKecamatan()
             if (response.isSuccessful){
                 withContext(Dispatchers.Main){

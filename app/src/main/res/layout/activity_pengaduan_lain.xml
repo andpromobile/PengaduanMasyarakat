@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PengaduanLainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarPengaduanLain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:background="@color/dark_teal"
+        android:elevation="24dp"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:title="PENGADUAN LAIN"
+        app:titleTextColor="#FFFFFF" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_below="@+id/toolbarPengaduanLain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:padding="24dp">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idFrmNamaLain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="@color/light_teal">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frmNamaLain"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:ems="10"
+            android:hint="Nama"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+            android:textColor="@color/dark_teal"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idFrmNoHPLain"
+        android:layout_below="@+id/idFrmNamaLain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="@color/light_teal">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frmNoHPLain"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:ems="10"
+            android:hint="Nomor HP"
+            android:importantForAutofill="no"
+            android:inputType="number"
+            android:padding="10dp"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+            android:textColor="@color/dark_teal"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idFrmLokasiLain"
+        android:layout_below="@+id/idFrmNoHPLain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="@color/light_teal">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frmLokasiLain"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:ems="10"
+            android:hint="Nama Lokasi"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+            android:textColor="@color/dark_teal"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idFrmAlamatLokasiLain"
+        android:layout_below="@+id/idFrmLokasiLain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="@color/light_teal">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frmAlamatLokasiLain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:gravity="start|top"
+            android:hint="Alamat Lokasi"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:padding="10dp"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+            android:textColor="@color/dark_teal"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idFrmKelurahanIdLain"
+        android:layout_below="@+id/idFrmAlamatLokasiLain"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="@color/light_teal">
+
+        <AutoCompleteTextView
+            android:id="@+id/frmKelurahanIdLain"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:hint="Kelurahan"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="16dp"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+            android:textColor="@color/dark_teal"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idFrmJudulLain"
+        android:layout_below="@id/idFrmKelurahanIdLain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="@color/light_teal">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frmJudulLain"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:ems="10"
+            android:hint="Judul Pengaduan"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+            android:textColor="@color/dark_teal"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idFrmIsiLain"
+        android:layout_below="@+id/idFrmJudulLain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="@color/light_teal">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frmIsiLain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:gravity="start|top"
+            android:hint="@string/isi_pengaduan"
+            android:inputType="textMultiLine"
+            android:lines="5"
+            android:padding="10dp"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+            android:textColor="@color/dark_teal"
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/idImgLain"
+        android:layout_below="@+id/idFrmIsiLain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="24dp">
+
+        <ImageView
+            android:id="@+id/imgLain"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:background="@color/light_teal"
+            android:contentDescription="@string/gambar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/uploadImgLain"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_background"
+            android:contentDescription="@string/tombol_gambar"
+            app:layout_constraintBottom_toBottomOf="@+id/imgLain"
+            app:layout_constraintEnd_toEndOf="@+id/imgLain"
+            app:srcCompat="@drawable/ic_camera_white" />
+
+        <ImageButton
+            android:id="@+id/saveImgLain"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/button_background2"
+            android:contentDescription="@string/tombol_gambar"
+            app:layout_constraintBottom_toBottomOf="@+id/imgLain"
+            app:layout_constraintEnd_toStartOf="@+id/uploadImgLain"
+            app:srcCompat="@drawable/baseline_save_24" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:max="100"
+            tools:progress="40"
+            app:layout_constraintStart_toStartOf="@id/imgLain"
+            app:layout_constraintEnd_toEndOf="@id/imgLain"
+            app:layout_constraintBottom_toBottomOf="@id/imgLain"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutLat"
+        android:layout_below="@+id/idImgLain"
+
+        android:layout_marginTop="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:boxBackgroundMode="outline"
+        android:textColorHint="@color/medium_teal"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="#FFFFFF"
+        >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frmLatitude"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:ems="10"
+            android:hint="Latitude"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/dark_teal"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutLong"
+        android:layout_below="@id/layoutLat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="56dp"
+        app:boxBackgroundMode="outline"
+        android:textColorHint="@color/medium_teal"
+        app:boxStrokeColor="@color/dark_teal"
+        app:boxBackgroundColor="#FFFFFF">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/frmLongitude"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+
+            android:ems="10"
+            android:hint="Longitude"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:padding="10dp"
+            android:textColor="@color/dark_teal"
+            android:textColorHint="@color/medium_teal"
+            android:textSize="20sp"
+
+            tools:ignore="HardcodedText" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <ImageButton
+        android:id="@+id/btnPetaLain"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/layoutLat"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="34dp"
+        android:background="@drawable/button_background"
+        app:srcCompat="@drawable/ic_location"
+        tools:ignore="SpeakableTextPresentCheck" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/laporLain"
+                style="@android:style/Widget.Button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="30dp"
+                android:background="@drawable/button_background"
+                android:text="@string/lapor"
+                android:layout_below="@id/layoutLong"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+        </RelativeLayout>
+    </androidx.core.widget.NestedScrollView>
+
+    <ProgressBar
+        android:visibility="visible"
+        android:id="@+id/progressBarLaporLain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        />
+</RelativeLayout>
