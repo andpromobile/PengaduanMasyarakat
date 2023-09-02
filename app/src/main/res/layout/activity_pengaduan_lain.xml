@@ -7,19 +7,45 @@
     android:layout_height="match_parent"
     tools:context=".PengaduanLainActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarPengaduanLain"
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@color/dark_teal"
-        android:elevation="24dp"
-        app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:title="PENGADUAN LAIN"
-        app:titleTextColor="#FFFFFF" />
+        android:background="@color/dark_teal">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="82dp"
+            android:layout_height="86dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="8dp"
+            app:srcCompat="@drawable/logo"
+            tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dinas"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_alignTop="@id/imageView"
+            />
+    </RelativeLayout>
+
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbarPengaduanLain"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:background="@color/dark_teal"-->
+<!--        android:elevation="24dp"-->
+<!--        app:navigationIcon="@drawable/baseline_arrow_back_24"-->
+<!--        app:title="PENGADUAN LAIN"-->
+<!--        app:titleTextColor="#FFFFFF" />-->
 
     <androidx.core.widget.NestedScrollView
-        android:layout_below="@+id/toolbarPengaduanLain"
+        android:layout_below="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -36,7 +62,7 @@
         android:layout_marginTop="24dp"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="@color/light_teal">
+        app:boxBackgroundColor="@color/warna1">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/frmNamaLain"
@@ -62,7 +88,7 @@
         android:layout_marginTop="24dp"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="@color/light_teal">
+        app:boxBackgroundColor="@color/warna1">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/frmNoHPLain"
@@ -88,7 +114,7 @@
         android:layout_marginTop="24dp"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="@color/light_teal">
+        app:boxBackgroundColor="@color/warna2">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/frmLokasiLain"
@@ -114,7 +140,7 @@
         android:layout_marginTop="24dp"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="@color/light_teal">
+        app:boxBackgroundColor="@color/warna2">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/frmAlamatLokasiLain"
@@ -143,7 +169,7 @@
         android:layout_marginTop="24dp"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="@color/light_teal">
+        app:boxBackgroundColor="@color/warna2">
 
         <AutoCompleteTextView
             android:id="@+id/frmKelurahanIdLain"
@@ -170,7 +196,7 @@
         android:layout_marginTop="24dp"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="@color/light_teal">
+        app:boxBackgroundColor="@color/warna3">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/frmJudulLain"
@@ -196,7 +222,7 @@
         android:layout_marginTop="24dp"
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="@color/light_teal">
+        app:boxBackgroundColor="@color/warna3">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/frmIsiLain"
@@ -227,7 +253,7 @@
             android:id="@+id/imgLain"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:background="@color/light_teal"
+            android:background="@color/warna3"
             android:contentDescription="@string/gambar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -280,7 +306,7 @@
         app:boxBackgroundMode="outline"
         android:textColorHint="@color/medium_teal"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="#FFFFFF"
+        app:boxBackgroundColor="@color/warna3"
         >
 
         <com.google.android.material.textfield.TextInputEditText
@@ -310,7 +336,7 @@
         app:boxBackgroundMode="outline"
         android:textColorHint="@color/medium_teal"
         app:boxStrokeColor="@color/dark_teal"
-        app:boxBackgroundColor="#FFFFFF">
+        app:boxBackgroundColor="@color/warna3">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/frmLongitude"
@@ -347,10 +373,13 @@
                 style="@android:style/Widget.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
+                android:layout_below="@id/layoutLong"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/button_background"
                 android:text="@string/lapor"
-                android:layout_below="@id/layoutLong"
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 

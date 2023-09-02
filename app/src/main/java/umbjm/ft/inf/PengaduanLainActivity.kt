@@ -82,10 +82,10 @@ class PengaduanLainActivity : AppCompatActivity() {
         binding = ActivityPengaduanLainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        toolbarPengaduan = binding.toolbarPengaduanLain
-        setSupportActionBar(toolbarPengaduan)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+//        toolbarPengaduan = binding.toolbarPengaduanLain
+//        setSupportActionBar(toolbarPengaduan)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         setKomponen()
         setPermissions()
@@ -174,13 +174,13 @@ class PengaduanLainActivity : AppCompatActivity() {
                 ).enqueue(object: Callback<SubmitModel> {
                     override fun onResponse(call: Call<SubmitModel>, response: Response<SubmitModel>) {
                         if(response.isSuccessful){
-
+                            Log.d("1: DALAM if response", "DALAM if response")
                         }else{
-
+                            Log.d("2: DALAM else response", "DALAM else response")
                         }
-                        SweetAlertDialog(this@PengaduanLainActivity, SweetAlertDialog.SUCCESS_TYPE)
-                            .setContentText("Berhasil Upload Gambar")
-                            .show()
+                        Log.d("3: DALAM response", "DALAM response")
+
+                        Log.d("4: DALAM response", "DALAM response")
                         progressBar.progress = 100
                     }
 
@@ -190,11 +190,16 @@ class PengaduanLainActivity : AppCompatActivity() {
 
                 })
 
+                SweetAlertDialog(this@PengaduanLainActivity, SweetAlertDialog.SUCCESS_TYPE)
+                    .setContentText("Berhasil Upload Gambar")
+                    .show()
+
             }
         }
 
     private fun insertPengaduanLain() {
         if (cekInput()){
+            lapor.isEnabled = false
             showLoading(true)
             lifecycleScope.launch{
                 pengaduanLainViewModel.insertPengaduanLain(
@@ -217,6 +222,7 @@ class PengaduanLainActivity : AppCompatActivity() {
                     .setContentText("DATA BERHASIL DISIMPAN")
                     .setConfirmButton("IYA") {
                         showLoading(false)
+                        lapor.isEnabled = true
                         it.dismissWithAnimation()
 
                         val intent = Intent(this@PengaduanLainActivity,

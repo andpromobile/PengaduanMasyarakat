@@ -2,7 +2,6 @@ package umbjm.ft.inf
 
 import android.Manifest
 import android.R
-import android.app.DatePickerDialog
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -16,11 +15,9 @@ import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
-import android.widget.Toolbar
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -29,23 +26,19 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import cn.pedant.SweetAlert.SweetAlertDialog
-import com.example.elaporadmin.ViewModel.BidangViewModel
 import com.example.elaporadmin.ViewModel.KecamatanViewModel
 import com.example.elaporadmin.ViewModel.KelurahanViewModel
 import com.example.elaporadmin.ViewModel.LokasiViewModel
 import com.example.elaporadmin.ViewModel.PengaduanViewModel
+import com.example.elaporadmin.ViewModel.SeksiViewModel
 import com.example.elaporadmin.ViewModel.SubmitModel
 import com.example.elaporadmin.retrofit.ApiService
 import id.zelory.compressor.Compressor
 import id.zelory.compressor.constraint.quality
 import id.zelory.compressor.constraint.resolution
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import umbjm.ft.inf.databinding.ActivityPengaduanBinding
 import java.io.File
@@ -59,6 +52,7 @@ import java.util.Locale
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import umbjm.ft.inf.dao.CekLokasi
 import java.util.UUID
 
 class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback {
@@ -78,7 +72,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     private lateinit var progressBar: ProgressBar
     private lateinit var progressBarLapor: ProgressBar
     private lateinit var toolbarPengaduan:androidx.appcompat.widget.Toolbar
-    private var bidangId:Int=0
+    private var seksiId:Int=0
     private var lokasiId:Int=0
     private var kelurahanId:Int=0
     private var kecamatanId:Int=0
@@ -96,10 +90,10 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         binding = ActivityPengaduanBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        toolbarPengaduan = binding.toolbarPengaduan!!
-        setSupportActionBar(toolbarPengaduan)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+//        toolbarPengaduan = binding.toolbarPengaduan!!
+//        setSupportActionBar(toolbarPengaduan)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayShowHomeEnabled(true)
 
 
         setPermissions()
@@ -111,13 +105,14 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
 
     private fun insertPengaduan() {
         if (cekInput()){
+            lapor.visibility = View.GONE
             showLoading(true)
             lifecycleScope.launch{
                 pengaduanViewModel.insertPengaduan(
                     frmJudul.text.toString(), frmNama.text.toString(),
                     frmNoHp.text.toString(), frmIsi.text.toString(),
                     tanggal, fileName,
-                    lokasiId, kelurahanId, bidangId, kecamatanId
+                    lokasiId, kelurahanId, seksiId, kecamatanId
                 )
                 Log.d("HABIS INSERT","HABIS INSERT")
             }
@@ -143,6 +138,8 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
                     .show()
             }
 
+
+
        }else{
             SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
                 .setContentText("Input Tidak Boleh Kosong!!!")
@@ -154,15 +151,14 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
         var cek = false
         if (
             (frmJudul.text.toString() != "") && (frmNama.text.toString() != "") &&
-            (frmNoHp.text.toString() != "") && (frmIsi.text.toString() != "") //&&
-//            (frmTanggal.text.toString() != "")
+            (frmNoHp.text.toString() != "") && (frmIsi.text.toString() != "")
         ) cek = true
 
         return cek
     }
 
     private fun setAutoComplete() {
-        bidang()
+        seksi()
     }
 
     private fun kecamatan(){
@@ -228,7 +224,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
     private fun lokasi(id:Int) {
         val lokasiViewModel = ViewModelProvider(this)[LokasiViewModel::class.java]
 
-        lokasiViewModel.getLokasiByBidang(bidangId)
+        lokasiViewModel.getLokasiBySeksi(seksiId)
 
 
         lokasiViewModel.observeLokasiLiveData().observe(
@@ -245,30 +241,57 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
             val arrayAdapter: ArrayAdapter<String?> = ArrayAdapter<String?>(this, R.layout.simple_list_item_1, fp)
             arrayAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
 
+            frmLokasiId.setText("")
             frmLokasiId.setAdapter(arrayAdapter)
 
             frmLokasiId.setOnItemClickListener { _, _, position, _ ->
                 lokasiId = listId[position]!!.toInt()
-                kecamatan()
+                ApiService.api.cekLokasi(lokasiId).enqueue(object :Callback<CekLokasi>{
+                    override fun onResponse(
+                        call: Call<CekLokasi>,
+                        response: Response<CekLokasi>
+                    ) {
+                        if (response.isSuccessful){
+                            if(response.body()?.message == "0") {
+                                lapor.visibility = View.VISIBLE
+
+                                kelurahanId = response.body()?.kelurahan_id!!
+                                kecamatanId = response.body()?.kecamatan_id!!
+                            }
+                            else{
+                                lapor.visibility = View.GONE
+                                SweetAlertDialog(this@PengaduanActivity, SweetAlertDialog.WARNING_TYPE)
+                                    .setContentText("Lokasi sudah dilaporkan dan menunggu tindak lanjut. Silakan Pilih Lokasi lain")
+                                    .show()
+
+                            }
+                        }
+                    }
+
+                    override fun onFailure(call: Call<CekLokasi>, t: Throwable) {
+                        Log.d("Masalah Koneksi", "Masalah Koneksi")
+                    }
+
+                })
             }
 
 
         }
     }
 
-    private fun bidang() {
-        val bidangViewModel = ViewModelProvider(this)[BidangViewModel::class.java]
+    private fun seksi() {
+        val seksiViewModel = ViewModelProvider(this)[SeksiViewModel::class.java]
 
-        bidangViewModel.getBidang()
+        seksiViewModel.getSeksi()
 
-        bidangViewModel.observeBidangLiveData().observe(
+        seksiViewModel.observeSeksiLiveData().observe(
             this
-        ){ bidangList ->
+        ){ seksiList ->
             val fp:MutableList<String?> = ArrayList()
             val listId:MutableList<String?> = ArrayList()
 
-            for (i in bidangList){
-                fp.add(i.namabidang+" - "+i.seksi)
+            for (i in seksiList){
+                fp.add(i.namaseksi)
                 listId.add(i.id.toString())
             }
 
@@ -278,8 +301,8 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
             frmBidangId.setAdapter(arrayAdapter)
 
             frmBidangId.setOnItemClickListener { _, _, position, _ ->
-                bidangId = listId[position]!!.toInt()
-                lokasi(bidangId)
+                seksiId = listId[position]!!.toInt()
+                lokasi(seksiId)
             }
 
 
@@ -391,9 +414,7 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
                     }else{
 
                     }
-                    SweetAlertDialog(this@PengaduanActivity, SweetAlertDialog.SUCCESS_TYPE)
-                        .setContentText("Berhasil Upload Gambar")
-                        .show()
+
                     progressBar.progress = 100
                 }
 
@@ -402,6 +423,10 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
                 }
 
             })
+
+            SweetAlertDialog(this@PengaduanActivity, SweetAlertDialog.SUCCESS_TYPE)
+                .setContentText("Berhasil Upload Gambar")
+                .show()
 
         }
     }
@@ -414,8 +439,8 @@ class PengaduanActivity : AppCompatActivity(), UploadRequestBody.UploadCallback 
 //        frmTanggal = binding.frmTanggal!!
         frmBidangId = binding.frmBidangId!!
         frmLokasiId = binding.frmLokasiId!!
-        frmKelurahanId = binding.frmKelurahanId!!
-        frmKecamatanId = binding.frmKecamatanId!!
+//        frmKelurahanId = binding.frmKelurahanId!!
+//        frmKecamatanId = binding.frmKecamatanId!!
         btnImg = binding.uploadImg
         saveImg = binding.saveImg!!
         lapor = binding.lapor as AppCompatButton

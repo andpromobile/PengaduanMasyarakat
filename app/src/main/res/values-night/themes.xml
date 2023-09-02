@@ -3,6 +3,11 @@
     <style name="Base.Theme.PengaduanMasyarakat" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
-        <item name="android:statusBarColor" >@color/dark_teal</item>
+        <item name="android:statusBarColor">@color/dark_teal</item>
+    </style>
+
+    <style name="ThemeOverlay.PengaduanMasyarakat.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_900</item>
+        <item name="fullscreenTextColor">@color/light_blue_A400</item>
     </style>
 </resources>

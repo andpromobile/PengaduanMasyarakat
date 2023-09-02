@@ -1,5 +1,6 @@
 package umbjm.ft.inf
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.ColorSpace.Rgb
 import android.os.Bundle
@@ -22,6 +23,7 @@ class StatusActivity : AppCompatActivity() {
     private lateinit var cv:CardView
     private val pengaduanViewModel: PengaduanViewModel by viewModels()
     private val lokasiViewModel: LokasiViewModel by viewModels()
+    private var urlGambar = ""
 
     companion object{
         private val url ="https://pupr.hstkab.go.id/elapor/elapor/public/foto/"
@@ -49,46 +51,46 @@ class StatusActivity : AppCompatActivity() {
                 this
             ) {
 
-                lokasiViewModel.getLokasiById(it[0].lokasi_id)
+                lokasiViewModel.showLokasi(it[0].lokasi_id)
 
                 lokasiViewModel.observeLokasiLiveData().observe(
                     this
                 ){listLokasi->
 
                     binding.judul.text = it[0].judulpengaduan.toString()
+                    binding.isi.text = it[0].isipengaduan.toString()
                     binding.lokasi.text = listLokasi[0].datalokasi
+
+                    urlGambar = url+it[0].foto
 
                     Glide
                         .with(this)
-                        .load(url+it[0].foto)
+                        .load(urlGambar)
                         .centerCrop()
                         .into(iv)
 
                     when(it[0].status){
                         "0" -> {
-                            binding.status.text = "PENDING"
+                            "PENDING".also { binding.status.text = it }
                             binding.status.setBackgroundColor(Color.parseColor("#900C3F"))
                         }
                         "1"-> {
-                            binding.status.text = "Diteruskan Ke Kepala Bidang"
+                            "Diteruskan Ke Kepala Bidang".also { binding.status.text = it }
                             binding.status.setBackgroundColor(Color.parseColor("#F94C10"))
                         }
                         "2"-> {
-                            binding.status.text = "Telah Diverifikasi Kepala Bidang"
+                            "Telah Diverifikasi Kepala Bidang".also { binding.status.text = it }
                             binding.status.setBackgroundColor(Color.parseColor("#1A5D1A"))
                         }
                         "3"-> {
-                            binding.status.text = "Telah Selesai"
+                            "Telah Selesai".also { binding.status.text = it }
                             binding.status.setBackgroundColor(Color.parseColor("#1A5D1A"))
                         }
                         "4"-> {
-                            binding.status.text = "Ditolak"
+                            "Ditolak".also { binding.status.text = it }
                             binding.status.setBackgroundColor(Color.parseColor("#FF0000"))
                         }
                     }
-
-
-
 
                     cv.visibility = View.VISIBLE
                     showLoading(false)
@@ -103,6 +105,14 @@ class StatusActivity : AppCompatActivity() {
         setSupportActionBar(toolbarStatus)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        iv = binding.iv
+        iv.setOnClickListener {
+            val intent = Intent(this@StatusActivity,
+                FullscreenImageActivity::class.java,)
+            intent.putExtra("URLGAMBAR", urlGambar)
+            startActivity(intent)
+        }
     }
 
     private fun showLoading(loading:Boolean){

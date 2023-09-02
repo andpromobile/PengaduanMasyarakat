@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.elaporadmin.retrofit.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -42,34 +43,45 @@ class LokasiViewModel: ViewModel() {
             })
     }
 
-    fun getLokasiById(id:Int){
+    fun showLokasi(id: Int){
 
-        GlobalScope.launch (Dispatchers.IO){
+        ApiService.api.showLokasi(id)
+            .enqueue(object: Callback<ResponseLokasi> {
+                override fun onResponse(
+                    call: Call<ResponseLokasi>,
+                    response: Response<ResponseLokasi>
+                ) {
+
+                    if (response.body()!=null){
+                        lokasiLiveData.value = response.body()!!.data
+
+                        Log.d("HASIL LOKASI",lokasiLiveData.value.toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseLokasi>, t: Throwable) {
+                    Log.d("TAG ON Failure",t.message.toString())
+                }
+
+            })
+    }
+
+    fun getLokasiBySeksi(id:Int){
+        viewModelScope.launch{
             val response = ApiService.api.getLokasiById(id)
             if (response.isSuccessful){
-                withContext(Dispatchers.Main){
-                    lokasiLiveData.value = response.body()?.data
-                }
+                lokasiLiveData.value = response.body()?.data
             }
         }
+    }
+    fun getLokasiById(id:Int){
 
-//        ApiService.api.getLokasiById(
-//            id
-//        ).enqueue(object:Callback<ResponseLokasi>{
-//            override fun onResponse(
-//                call: Call<ResponseLokasi>,
-//                response: Response<ResponseLokasi>
-//            ) {
-//                if (response.isSuccessful){
-//                    lokasiLiveData.value = response.body()?.data
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<ResponseLokasi>, t: Throwable) {
-//                Log.d("TAG", t.message.toString())
-//            }
-//
-//        })
+        viewModelScope.launch{
+            val response = ApiService.api.getLokasiById(id)
+            if (response.isSuccessful){
+                lokasiLiveData.value = response.body()?.data
+            }
+        }
     }
 
     fun getLokasiByBidang(id:Int){

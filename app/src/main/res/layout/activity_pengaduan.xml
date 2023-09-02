@@ -8,19 +8,44 @@
     android:background="@color/light_blue"
     tools:context=".PengaduanActivity">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarPengaduan"
+<!--    <androidx.appcompat.widget.Toolbar-->
+<!--        android:id="@+id/toolbarPengaduan"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="16dp"-->
+<!--        android:background="@color/dark_teal"-->
+<!--        android:elevation="24dp"-->
+<!--        app:navigationIcon="@drawable/baseline_arrow_back_24"-->
+<!--        app:title="PENGADUAN"-->
+<!--        app:titleTextColor="#FFFFFF" />-->
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:background="@color/dark_teal"
-        android:elevation="24dp"
-        app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:title="PENGADUAN"
-        app:titleTextColor="#FFFFFF" />
-
+        android:background="@color/dark_teal">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="82dp"
+            android:layout_height="86dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="8dp"
+            app:srcCompat="@drawable/logo"
+            tools:ignore="ContentDescription" />
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/dinas"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:layout_toEndOf="@+id/imageView"
+            android:layout_alignTop="@id/imageView"
+            />
+    </RelativeLayout>
     <androidx.core.widget.NestedScrollView
-        android:layout_below="@+id/toolbarPengaduan"
+        android:layout_below="@+id/relativeLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/dark_blue">
@@ -54,7 +79,7 @@
                         android:layout_marginTop="24dp"
                         app:boxBackgroundMode="outline"
                         app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+                        app:boxBackgroundColor="@color/warna1">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/frmNama"
@@ -78,7 +103,7 @@
                         android:layout_marginTop="24dp"
                         app:boxBackgroundMode="outline"
                         app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+                        app:boxBackgroundColor="@color/warna1">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/frmNoHP"
@@ -102,7 +127,7 @@
                         android:layout_marginTop="24dp"
                         app:boxBackgroundMode="outline"
                         app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+                        app:boxBackgroundColor="@color/warna1">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/frmJudul"
@@ -126,7 +151,7 @@
                         android:layout_marginTop="24dp"
                         app:boxBackgroundMode="outline"
                         app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+                        app:boxBackgroundColor="@color/warna1">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/frmIsi"
@@ -177,7 +202,7 @@
                         android:layout_marginTop="24dp"
                         app:boxBackgroundMode="outline"
                         app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+                        app:boxBackgroundColor="@color/warna2">
 
                         <AutoCompleteTextView
                             android:id="@+id/frmBidangId"
@@ -185,7 +210,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:gravity="start|top"
-                            android:hint="Bidang"
+                            android:hint="Seksi"
                             android:importantForAutofill="no"
                             android:inputType="textMultiLine"
 
@@ -204,7 +229,7 @@
                         android:layout_marginTop="24dp"
                         app:boxBackgroundMode="outline"
                         app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+                        app:boxBackgroundColor="@color/warna2">
 
                         <AutoCompleteTextView
                             android:id="@+id/frmLokasiId"
@@ -223,57 +248,57 @@
 
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        app:boxBackgroundMode="outline"
-                        app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="24dp"-->
+<!--                        app:boxBackgroundMode="outline"-->
+<!--                        app:boxStrokeColor="@color/dark_teal"-->
+<!--                        app:boxBackgroundColor="@color/warna2">-->
 
-                        <AutoCompleteTextView
-                            android:id="@+id/frmKecamatanId"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:ems="10"
-                            android:gravity="start|top"
-                            android:hint="Kecamatan"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:padding="16dp"
-                            android:textColorHint="@color/medium_teal"
-                            android:textSize="20sp"
-                            android:textColor="@color/dark_teal"
-                            tools:ignore="HardcodedText" />
+<!--                        <AutoCompleteTextView-->
+<!--                            android:id="@+id/frmKecamatanId"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="56dp"-->
+<!--                            android:ems="10"-->
+<!--                            android:gravity="start|top"-->
+<!--                            android:hint="Kecamatan"-->
+<!--                            android:importantForAutofill="no"-->
+<!--                            android:inputType="text"-->
+<!--                            android:padding="16dp"-->
+<!--                            android:textColorHint="@color/medium_teal"-->
+<!--                            android:textSize="20sp"-->
+<!--                            android:textColor="@color/dark_teal"-->
+<!--                            tools:ignore="HardcodedText" />-->
 
-                    </com.google.android.material.textfield.TextInputLayout>
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="24dp"
-                        app:boxBackgroundMode="outline"
-                        app:boxStrokeColor="@color/dark_teal"
-                        app:boxBackgroundColor="@color/light_teal">
+<!--                    <com.google.android.material.textfield.TextInputLayout-->
+<!--                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginTop="24dp"-->
+<!--                        app:boxBackgroundMode="outline"-->
+<!--                        app:boxStrokeColor="@color/dark_teal"-->
+<!--                        app:boxBackgroundColor="@color/warna2">-->
 
-                        <AutoCompleteTextView
-                            android:id="@+id/frmKelurahanId"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:ems="10"
-                            android:gravity="start|top"
-                            android:hint="Kelurahan"
-                            android:importantForAutofill="no"
-                            android:inputType="text"
-                            android:padding="16dp"
-                            android:textColorHint="@color/medium_teal"
-                            android:textSize="20sp"
-                            android:textColor="@color/dark_teal"
-                            tools:ignore="HardcodedText" />
+<!--                        <AutoCompleteTextView-->
+<!--                            android:id="@+id/frmKelurahanId"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="56dp"-->
+<!--                            android:ems="10"-->
+<!--                            android:gravity="start|top"-->
+<!--                            android:hint="Kelurahan"-->
+<!--                            android:importantForAutofill="no"-->
+<!--                            android:inputType="text"-->
+<!--                            android:padding="16dp"-->
+<!--                            android:textColorHint="@color/medium_teal"-->
+<!--                            android:textSize="20sp"-->
+<!--                            android:textColor="@color/dark_teal"-->
+<!--                            tools:ignore="HardcodedText" />-->
 
-                    </com.google.android.material.textfield.TextInputLayout>
+<!--                    </com.google.android.material.textfield.TextInputLayout>-->
 
 
 
@@ -286,7 +311,7 @@
                             android:id="@+id/img"
                             android:layout_width="match_parent"
                             android:layout_height="300dp"
-                            android:background="@color/light_teal"
+                            android:background="@color/warna2"
                             android:contentDescription="@string/gambar"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -331,6 +356,8 @@
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/lapor"
+                        android:visibility="gone"
+                        tools:visibility="visible"
                         style="@android:style/Widget.Button"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

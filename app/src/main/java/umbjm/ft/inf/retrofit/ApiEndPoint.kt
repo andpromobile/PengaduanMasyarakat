@@ -12,11 +12,13 @@ import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
+import umbjm.ft.inf.dao.CekLokasi
 import umbjm.ft.inf.dao.ResponseBidang
 import umbjm.ft.inf.dao.ResponseKecamatan
 import umbjm.ft.inf.dao.ResponseKelurahan
 import umbjm.ft.inf.dao.ResponseLokasi
 import umbjm.ft.inf.dao.ResponsePengaduan
+import umbjm.ft.inf.dao.ResponseSeksi
 
 interface ApiEndPoint {
 
@@ -72,13 +74,26 @@ interface ApiEndPoint {
     @GET("dtxlokasi")
     fun getLokasi(): Call<ResponseLokasi>
 
-    @GET("dtxlokasi/show/{id}")
+    @GET("dtxpengaduan/cekLokasi/{id}")
+    fun cekLokasi(
+        @Path("id") id: Int
+    ): Call<CekLokasi>
+
+    @GET("dtxlokasi/showBySeksi/{id}")
     suspend fun getLokasiById(
         @Path("id") id: Int
     ):Response<ResponseLokasi>
 
+    @GET("dtxlokasi/show/{id}")
+    fun showLokasi(
+        @Path("id") id: Int
+    ):Call<ResponseLokasi>
+
     @GET("dtxbidang")
     suspend fun getBidang(): Response<ResponseBidang>
+
+    @GET("dtxseksi")
+    suspend fun getSeksi(): Response<ResponseSeksi>
 
     @FormUrlEncoded
     @POST("dtxlokasi/store")

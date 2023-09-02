@@ -92,20 +92,28 @@
                     android:orientation="vertical"
                     android:padding="20dp">
 
-                    <EditText
-                        android:id="@+id/judul"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
-                        android:layout_height="52dp"
-                        android:autofillHints=""
-                        android:background="@drawable/multitext_background"
-                        android:ems="10"
-                        android:hint="@string/judul_pengaduan"
-                        android:inputType="text"
-                        android:padding="10dp"
-                        android:text=""
-                        android:textColor="@color/black"
-                        android:textColorHint="#37474F" />
+                        android:layout_height="wrap_content"
+                        app:boxBackgroundMode="outline"
+                        app:boxStrokeColor="@color/dark_teal"
+                        app:boxBackgroundColor="@color/light_teal">
 
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/judul"
+                            android:layout_width="match_parent"
+                            android:layout_height="52dp"
+                            android:ems="10"
+                            android:hint="JUDUL PENGADUAN"
+                            android:importantForAutofill="no"
+                            android:inputType="text"
+                            android:padding="10dp"
+                            android:textColorHint="#37474F"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"
+                            tools:ignore="HardcodedText" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -132,7 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        />
+                        tools:ignore="HardcodedText" />
 
                     <TextView
                         android:id="@+id/token"
@@ -172,7 +180,9 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                android:importantForAutofill="no"
+                tools:ignore="HardcodedText" />
 
 
             <androidx.appcompat.widget.AppCompatButton
@@ -212,19 +222,22 @@
                     android:gravity="center"
                     android:text="PENGADUAN"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
                 <Button
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="STATISTIKA"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
                 <Button
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="TENTANG"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    tools:ignore="HardcodedText" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

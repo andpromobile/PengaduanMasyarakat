@@ -58,6 +58,22 @@
                 android:layout_height="48dp" />
 
             <TextView
+                android:text="Isi Pengaduan"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"/>
+
+            <TextView
+                android:id="@+id/isi"
+                android:text="Isi Pengaduan"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="48dp" />
+
+            <TextView
                 android:text="Lokasi"
                 android:textStyle="bold"
                 android:textSize="20sp"
