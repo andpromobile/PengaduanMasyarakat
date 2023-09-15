@@ -31,8 +31,10 @@ class MapsActivity : AppCompatActivity() {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var marker: Marker
     private lateinit var geocoder: Geocoder
-    private var lat:Double = -2.585882680757
-    private var lng:Double = 115.38438320159
+//    private var lat:Double = -2.585882680757
+//    private var lng:Double = 115.38438320159
+    private var lat:Double = 0.0
+    private var lng:Double = 0.0
     private var addressLine:String? = ""
 
 
@@ -87,8 +89,8 @@ class MapsActivity : AppCompatActivity() {
                     finish()
                 }
                 else {
-//                    lat = location.latitude
-//                    lng = location.longitude
+                    lat = location.latitude
+                    lng = location.longitude
 
                     geocoder = Geocoder(this, Locale.getDefault())
                     val addressList = geocoder.getFromLocation(lat, lng, 1)
